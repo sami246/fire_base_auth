@@ -1,45 +1,51 @@
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { useState } from 'react';
+import { useState} from 'react';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { NavigationContainer } from '@react-navigation/native';
 
-const LoginScreen = () => {
-const [email, setEmail] = useState('');
-const [password, setPassword] = useState('');
 
+const LoginScreen = ({ navigation }) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+
+  
   return (
-    <KeyboardAvoidingView style={styles.container} behavior='padding'>
-     <View style = {styles.inputContainer}>
-        <TextInput 
-            placeholder='Email'
-            value={email}
-            style={styles.input} 
-            onChange = { text => {setEmail(text)}}
-        />
-        <TextInput 
-            placeholder='Password'
-            value={password}
-            style={styles.input} 
-            onChange = { text => {setPassword(text)}}
-            secureTextEntry
-        />
-     </View>
-     <View style={styles.buttonContainer}>
-        <TouchableOpacity 
-            onPress={() => {}}
-            style = {styles.button}>
-            <Text style = {styles.buttonText}>Log in</Text>   
+        <View style={styles.container} behavior='padding'>
+            <View style = {styles.inputContainer}>
+                <TextInput 
+                    placeholder='Email'
+                    value={email}
+                    style={styles.input} 
+                    onChange = { text => {setEmail(text)}}
+                />
+                <TextInput 
+                    placeholder='Password'
+                    value={password}
+                    style={styles.input} 
+                    onChange = { text => {setPassword(text)}}
+                    secureTextEntry
+                />
+            </View>
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity 
+                    onPress={() => {}}
+                    style = {styles.button}>
+                    <Text style = {styles.buttonText}>Log in</Text>   
 
-        </TouchableOpacity>
+                </TouchableOpacity>
 
-        <TouchableOpacity 
-            onPress={() => {}}
-            style = {[styles.button, styles.buttonOutline]}>
-            <Text style = {styles.buttonOutlineText}>Register</Text>   
+                <TouchableOpacity 
+                    onPress={() => navigation.navigate('Register')}
+                    style = {[styles.button, styles.buttonOutline]}>
+                    <Text style = {styles.buttonOutlineText}>Register</Text>   
 
-        </TouchableOpacity>
+                </TouchableOpacity>
 
-     </View>
-    </KeyboardAvoidingView>
+            </View>
+        </View>
+
   )
 }
 
