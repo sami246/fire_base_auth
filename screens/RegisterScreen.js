@@ -1,57 +1,52 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-import { auth } from '../firebase'
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../firebase';
 
-const RegisterScreen = () => {
 
+
+const RegisterScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [surname, setSurname] = useState('');
-
 
     function handleRegister() {
-        console.log(email)
-        console.log(password)
-        console.log(firstName)
-        console.log(surname)
-        console.log("HELLO")
-
-        // auth.createUserWithEmailAndPassword(email, password)
-        // .then(userCredentials => {
-        //     const user = userCredentials.user
-        //     console.log("USER", user)
-        // })
-        // .catch(error => alert(error.message))
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed in 
+            console.log("Created a user")
+            const user = userCredential.user;
+            console.log(user.email)
+            navigation.navigate('Login')
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            if (errorCode === "auth/invalid-email"){
+                alert("Invalid Email")
+            }
+        });
     }
 
   return (
     <View style={styles.container} behavior='padding'>
         <View style = {styles.inputContainer}>
-            <TextInput 
-                placeholder='First Name'
-                value={firstName}
+            {/* <TextInput 
+                placeholder='Name'
+                value={name}
                 style={styles.input} 
-                onChange = { text => {setFirstName(text)}}
-            />
-            <TextInput 
-                placeholder='Surname'
-                value={surname}
-                style={styles.input} 
-                onChange = { text => {setSurname(text)}}
-            />
+                onChangeText = { text => setName(text)}
+            /> */}
             <TextInput 
                 placeholder='Email'
-                keyboardType='email-address'
                 value={email}
                 style={styles.input} 
-                onChange = { text => {setEmail(text)}}
+                onChangeText = { text => setEmail(text)}
             />
             <TextInput 
                 placeholder='Password'
                 value={password}
                 style={styles.input} 
-                onChange = { text => {setPassword(text)}}
+                onChangeText = { text => setPassword(text)}
                 secureTextEntry
             />
         </View>
