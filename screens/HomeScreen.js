@@ -16,7 +16,6 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text> FOODI </Text>
         <Text>Email: {auth.currentUser?.email} </Text>
         <TouchableOpacity style={styles.button} onPress={handleSignOut}>
             <Text style={styles.buttonText}>
