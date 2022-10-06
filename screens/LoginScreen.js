@@ -1,47 +1,24 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { useState, useEffect} from 'react';
-import { signInWithEmailAndPassword, GoogleAuthProvider } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase';
 
 
 const LoginScreen = ({ navigation }) => {
-
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const googleProvider = new GoogleAuthProvider();
+    const [user, setUser] = useState({});
 
     useEffect(() => {
         // Use unsubscribe to leave from listener to save power
         const unsubscribe = auth.onAuthStateChanged(user => {
-            console.log("user is here", user?.email)
             if(user){
                 navigation.replace('Home')
             }
             })
             return unsubscribe;
     }, [])
-
-    const signInWithGoogle = async () => {
-        try {
-          const res = await signInWithPopup(auth, googleProvider);
-          const user = res.user;
-          const q = query(collection(db, "users"), where("uid", "==", user.uid));
-          const docs = await getDocs(q);
-          if (docs.docs.length === 0) {
-            await addDoc(collection(db, "users"), {
-              uid: user.uid,
-              name: user.displayName,
-              authProvider: "google",
-              email: user.email,
-            });
-          }
-        } catch (err) {
-          console.error(err);
-          alert(err.message);
-        }
-      };
     
    
     function handleSignIn () {
@@ -50,7 +27,7 @@ const LoginScreen = ({ navigation }) => {
                 // Signed in 
                 
                 const user = userCredential.user;
-                console.log(user)
+                setUser(user)
                 // navigation.navigate('Home')
             })
             .catch((error) => {
@@ -63,6 +40,9 @@ const LoginScreen = ({ navigation }) => {
   
   return (
         <View style={styles.container} behavior='padding'>
+            <View style = {styles.titleContainer}>
+                <Text style={styles.title} >AUTH TEST</Text>
+            </View>
             <View style = {styles.inputContainer}>
                 <TextInput 
                     placeholder='Email'
@@ -82,7 +62,7 @@ const LoginScreen = ({ navigation }) => {
                 <TouchableOpacity 
                     onPress={handleSignIn}
                     style = {styles.button}>
-                    <Text style = {styles.buttonText}>Log in</Text>   
+                    <Text style = {styles.buttonText}>Login</Text>   
                 </TouchableOpacity>
 
                 <TouchableOpacity 
@@ -104,9 +84,12 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         alignItems: 'center',
-        flex: 1
+        flex: 1,
+        maxHeight: '70%',
+        top: 80
     },
     inputContainer: {
+        flex: 1,
         width: '80%'
     },
     input: {
@@ -117,6 +100,7 @@ const styles = StyleSheet.create({
         marginTop: 5
     },
     buttonContainer: {
+        flex: 1,
         width: '60%',
         justifyContent: 'center',
         alignContent: 'center',
@@ -145,5 +129,23 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 16
     },
+    titleContainer : {
+        flex: 2,
+        width: '80%',
+        justifyContent: 'center',
+        alignContent: 'center',
+        
+    },
+    title: {
+        fontSize: 35,
+        fontWeight: '450',
+        alignSelf: 'center',
+        borderColor: 'black',
+        borderWidth: 3,
+        padding: 15,
+        borderRadius: 30,
+        color: '#0782F9',
+        borderColor: '#0782F9',
+    }
     
 })

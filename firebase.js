@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
-console.log("I'm here")
 
 const firebaseConfig = {
     name: "fire_base_auth_test",

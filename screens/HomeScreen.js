@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { getAuth, signOut, GoogleAuthProvider,signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail,
- } from "firebase/auth";
+import { signOut} from "firebase/auth";
+// import { getAuth, signOut, GoogleAuthProvider,signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail} from "firebase/auth";
 import { auth } from '../firebase';
 
 
@@ -17,7 +17,6 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
         <Text>Email: {auth.currentUser?.email} </Text>
-        <Text>Name: {auth.currentUser?.displayName} </Text>
         <TouchableOpacity style={styles.button} onPress={handleSignOut}>
             <Text style={styles.buttonText}>
               Sign out
